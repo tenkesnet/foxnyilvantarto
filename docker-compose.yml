@@ -1,0 +1,26 @@
+version: '3.6'
+services:
+  postgres:
+    image: postgres
+    restart: always
+    container_name: local_pgdb
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=mobilredfox
+
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    container_name: local_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "fox@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "fox123!"
+    ports:
+      - "5051:80"
+    depends_on:
+      - postgres

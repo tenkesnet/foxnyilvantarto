@@ -1,0 +1,60 @@
+<h2>Eszközök listája</h2>
+<mat-form-field appearance="standard">
+  <mat-label>Keresés</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Keresés" #input>
+</mat-form-field>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Eszköz neve </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- serial Column -->
+    <ng-container matColumnDef="serialNumber">
+      <th mat-header-cell *matHeaderCellDef> Sorozatszám </th>
+      <td mat-cell *matCellDef="let element"> {{element.serialNumber}} </td>
+    </ng-container>
+
+    <!-- price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef> Ár </th>
+      <td mat-cell *matCellDef="let element"> {{element.price | number}} Ft</td>
+    </ng-container>
+
+    <!-- purchasedDate Column -->
+    <ng-container matColumnDef="purchaseDate">
+      <th mat-header-cell *matHeaderCellDef> Beszer. dátum </th>
+      <td mat-cell *matCellDef="let element"> {{element.purchaseDate | date:'y.MM.dd'}} </td>
+    </ng-container>
+
+    <!-- location Column -->
+    <ng-container matColumnDef="location">
+      <th mat-header-cell *matHeaderCellDef> Helye </th>
+      <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+    </ng-container>
+
+    <!-- location Column -->
+    <ng-container matColumnDef="rentalDate">
+      <th mat-header-cell *matHeaderCellDef> Kölcsönbe </th>
+      <td mat-cell *matCellDef="let element"> {{element.rentalDate | date:'y.MM.dd'}} </td>
+    </ng-container>
+
+    <!-- edit Column -->
+    <ng-container matColumnDef="edit" *ngIf="role =='admin'">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let element" (click)="editDevice(element.id)">
+        <mat-icon>border_color</mat-icon>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+    aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>
